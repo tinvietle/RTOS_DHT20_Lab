@@ -4,6 +4,7 @@
 #include <htsensor.h>
 #include <led_blinky.h>
 #include <light_control.h>
+#include <software_timer.h>
 
 int state = 0;
 int counter = 0;
@@ -103,6 +104,7 @@ void setup()
   SCH_Add_Task(led_blinky, 0, 100);
   // SCH_Add_Task(task, 0, 100);
   SCH_Add_Task(readDHT, 0, 200);
+  SCH_Add_Task(Timer_Run, 0, 1);
 
   Serial.begin(115200);
 }
