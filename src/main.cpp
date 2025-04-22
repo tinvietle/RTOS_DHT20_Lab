@@ -6,6 +6,7 @@
 #include <light_control.h>
 #include <software_timer.h>
 #include <heater.h>
+#include <cooler.h>
 #include <globals.h>
 
 int state = 0;
@@ -45,6 +46,7 @@ void setup()
   SCH_Add_Task(led_blinky, 0, 100);
   SCH_Add_Task(readDHT, 0, 500);
   SCH_Add_Task(handleHeater, 0, 100);
+  SCH_Add_Task(handleCooler, 0, 1);
   SCH_Add_Task(Timer_Run, 0, 1);
 
   Serial.begin(115200);

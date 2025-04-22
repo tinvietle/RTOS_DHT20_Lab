@@ -2,6 +2,7 @@
 #include <DHT20.h>
 #include <htsensor.h>
 #include <heater.h>
+#include <cooler.h>
 #include <globals.h>
 
 
