@@ -8,6 +8,7 @@
 #include <heater.h>
 #include <cooler.h>
 #include <globals.h>
+#include <humidifier.h>
 
 
 void TIMER_ISR(void *pvParameters)
@@ -43,6 +44,7 @@ void setup()
   SCH_Add_Task(handleHeater, 0, 100);
   SCH_Add_Task(handleCooler, 0, 1);
   SCH_Add_Task(Timer_Run, 0, 1);
+  SCH_Add_Task(handleHumidifier, 0, 1);
 
   Serial.begin(115200);
 }
