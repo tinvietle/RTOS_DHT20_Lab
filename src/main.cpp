@@ -9,11 +9,6 @@
 #include <cooler.h>
 #include <globals.h>
 
-int state = 0;
-int counter = 0;
-int num = 3;
-
-
 
 void TIMER_ISR(void *pvParameters)
 {
