@@ -7,57 +7,59 @@
 #define HUMIDITY_THRESHOLD 60  // predefined humidity threshold
 
 // Humidifier state definitions
-#define HUMIDIFIER_IDLE    0
-#define HUMIDIFIER_GREEN   1
-#define HUMIDIFIER_YELLOW  2
-#define HUMIDIFIER_RED     3
+enum class HumidifierState {
+    HUMIDIFIER_IDLE,
+    HUMIDIFIER_GREEN,
+    HUMIDIFIER_YELLOW,
+    HUMIDIFIER_RED
+};
 
-int humidifierTimerIndex = 0; // Index for the software timer
-int humidifierState = HUMIDIFIER_IDLE;
+int humidifierTimerIndex = HUMID_INDEX; // Index for the software timer
+HumidifierState humidifierState = HumidifierState::HUMIDIFIER_IDLE;
 
 void handleHumidifier()
 {
 
     switch (humidifierState){
-        case HUMIDIFIER_IDLE:
+        case HumidifierState::HUMIDIFIER_IDLE:
             if (globalHumidity < HUMIDITY_THRESHOLD) {
                 // Start humidifier cycle with GREEN color for 5 seconds
                 lightLED3(2);
                 Set_Timer(humidifierTimerIndex, 500);
-                humidifierState = HUMIDIFIER_GREEN;
+                humidifierState = HumidifierState::HUMIDIFIER_GREEN;
             }
             else {
                 // Humidity is sufficient; turn off the humidifier LED
                 lightLED3(0); // Turn off the humidifier LED when idle
             }
             break;
-        case HUMIDIFIER_GREEN:
+        case HumidifierState::HUMIDIFIER_GREEN:
             if (Is_Timer_Expired(humidifierTimerIndex)) {
                 // Switch to YELLOW for 3 seconds
                 lightLED3(1);
                 Set_Timer(humidifierTimerIndex, 300);
-                humidifierState = HUMIDIFIER_YELLOW;
+                humidifierState = HumidifierState::HUMIDIFIER_YELLOW;
             }
             break;
-        case HUMIDIFIER_YELLOW:
+        case HumidifierState::HUMIDIFIER_YELLOW:
             if (Is_Timer_Expired(humidifierTimerIndex)) {
                 // Switch to RED for 2 seconds
                 lightLED3(0);
                 Set_Timer(humidifierTimerIndex, 200);
-                humidifierState = HUMIDIFIER_RED;
+                humidifierState = HumidifierState::HUMIDIFIER_RED;
             }
             break;
-        case HUMIDIFIER_RED:
+        case HumidifierState::HUMIDIFIER_RED:
             if (Is_Timer_Expired(humidifierTimerIndex)) {
                 // Re-check humidity to determine whether to repeat cycle
                 if (globalHumidity < HUMIDITY_THRESHOLD) {
                     // Restart cycle: GREEN for 5 seconds
                     lightLED3(2);
                     Set_Timer(humidifierTimerIndex, 500);
-                    humidifierState = HUMIDIFIER_GREEN;
+                    humidifierState = HumidifierState::HUMIDIFIER_GREEN;
                 } else {
                     // Humidity is now sufficient; stop cycle
-                    humidifierState = HUMIDIFIER_IDLE;
+                    humidifierState = HumidifierState::HUMIDIFIER_IDLE;
                 }
             }
             break;

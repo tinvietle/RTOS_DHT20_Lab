@@ -4,36 +4,49 @@
 #include <software_timer.h>
 #include <globals.h>
 
-#define INIT 0
-#define COOLER_ON 1
-#define COOLER_OFF 2
+enum class CoolerState {
+    COOLER_INIT,
+    COOLER_ON,
+    COOLER_OFF
+};
 
-int coolerTimerIndex = 0; // Index for the software timer
-int coolerState = INIT;
+#define TEMPERATURE_THRESHOLD 31  // predefined temperature threshold
+
+int coolerTimerIndex = COOLER_INDEX; // Index for the software timer
+CoolerState coolerState = CoolerState::COOLER_INIT; // Initial state
 
 void handleCooler()
 {
     switch (coolerState){
-        case INIT:
+        case CoolerState::COOLER_INIT:
             lightLED2(0); // Turn off the cooler LED
-            coolerState = COOLER_OFF; // Set to COOLER_OFF state
+            coolerState = CoolerState::COOLER_OFF; // Set to COOLER_OFF state
             break;
-        case COOLER_OFF:
-            if (globalTemperature > 28) {
+        case CoolerState::COOLER_OFF:
+            if (globalTemperature > TEMPERATURE_THRESHOLD) {
                 activateCooler();
-                coolerState = COOLER_ON; // Set to COOLER_ON state
+                coolerState = CoolerState::COOLER_ON; // Set to COOLER_ON state
             }
             break;
-        case COOLER_ON:
+        case CoolerState::COOLER_ON:
             if (Is_Timer_Expired(coolerTimerIndex) != 1){break;}
-            deactivateCooler();
-            coolerState = COOLER_OFF; // Set to COOLER_OFF state
+            // Check if the temperature is still above 30
+            if (globalTemperature <= TEMPERATURE_THRESHOLD){
+                deactivateCooler();
+                coolerState = CoolerState::COOLER_OFF;
+            }
+            else {
+                // If the temperature is still above 30, reset the timer
+                activateCooler();
+            }
             break;
     }
 }
 
 void activateCooler()
 {
+    Serial.println("Cooler ON");
+    
     // Cooler green
     lightLED2(2);
 
@@ -43,6 +56,8 @@ void activateCooler()
 
 void deactivateCooler()
 {
+    Serial.println("Cooler OFF");
+
     // Cooler red
     lightLED2(0);
 }
