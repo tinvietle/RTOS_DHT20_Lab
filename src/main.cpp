@@ -5,72 +5,13 @@
 #include <led_blinky.h>
 #include <light_control.h>
 #include <software_timer.h>
+#include <heater.h>
+#include <globals.h>
 
 int state = 0;
 int counter = 0;
 int num = 3;
 
-void task()
-{
-  switch (state)
-  {
-  case 0: // red-green for 3s
-    digitalWrite(D3, HIGH);
-    digitalWrite(D4, HIGH);
-    digitalWrite(D5, HIGH);
-    digitalWrite(D6, LOW);
-    counter++;
-    if (counter >= num)
-    {
-      state = 1;
-      counter = 0;
-      num = 2;
-    }
-    break;
-  case 1: // red-yellow for 2s
-    digitalWrite(D3, HIGH);
-    digitalWrite(D4, HIGH);
-    digitalWrite(D5, LOW);
-    digitalWrite(D6, HIGH);
-    counter++;
-    if (counter >= num)
-    {
-      state = 2;
-      counter = 0;
-      num = 3;
-    }
-    break;
-  case 2: // green-red for 3s
-    digitalWrite(D3, HIGH);
-    digitalWrite(D4, LOW);
-    digitalWrite(D5, HIGH);
-    digitalWrite(D6, HIGH);
-    counter++;
-    if (counter >= num)
-    {
-      state = 3;
-      counter = 0;
-      num = 2;
-    }
-    break;
-  case 3: // yellow-red for 2s
-    digitalWrite(D3, LOW);
-    digitalWrite(D4, HIGH);
-    digitalWrite(D5, HIGH);
-    digitalWrite(D6, HIGH);
-    counter++;
-    if (counter >= num)
-    {
-      state = 0;
-      counter = 0;
-      num = 3;
-    }
-    break;
-  default:
-    state = 0;
-    break;
-  }
-}
 
 
 void TIMER_ISR(void *pvParameters)
@@ -102,8 +43,8 @@ void setup()
 
   SCH_Init();
   SCH_Add_Task(led_blinky, 0, 100);
-  // SCH_Add_Task(task, 0, 100);
-  SCH_Add_Task(readDHT, 0, 200);
+  SCH_Add_Task(readDHT, 0, 500);
+  SCH_Add_Task(handleHeater, 0, 100);
   SCH_Add_Task(Timer_Run, 0, 1);
 
   Serial.begin(115200);

@@ -2,10 +2,13 @@
 #include <DHT20.h>
 #include <htsensor.h>
 #include <heater.h>
+#include <globals.h>
 
 
 DHT20 dht20;
 uint8_t count = 0;
+float globalTemperature = 0;
+float globalHumidity = 0;
 
 void readDHT()
 {
@@ -22,14 +25,14 @@ void readDHT()
   }
   count++;
 
-  float temperature = dht20.getTemperature();
-  float humidity = dht20.getHumidity();
+  globalTemperature = dht20.getTemperature();
+  globalHumidity = dht20.getHumidity();
 
   Serial.print("DHT20 \t");
   //  DISPLAY DATA, sensor has only one decimal.
-  Serial.print(humidity, 1);
+  Serial.print(globalHumidity, 1);
   Serial.print("\t\t");
-  Serial.print(temperature, 1);
+  Serial.print(globalTemperature, 1);
   Serial.print("\t\t");
   Serial.print(stop - start);
   Serial.print("\t\t");
@@ -63,5 +66,4 @@ void readDHT()
   Serial.print("\n");
 
   // Handle heater based on temperature
-  handleHeater(temperature);
 }
