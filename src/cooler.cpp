@@ -12,14 +12,6 @@ int coolerState = COOLER_OFF;
 
 void handleCooler()
 {
-    // if (globalTemperature <= 30)
-    // {
-    //     deactivateCooler();
-    // }
-    // else
-    // {
-    //     activateCooler();
-    // }
     switch (coolerState){
         case COOLER_OFF:
             if (globalTemperature > 30) {
