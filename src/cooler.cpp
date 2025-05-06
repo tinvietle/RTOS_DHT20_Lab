@@ -20,29 +20,15 @@ void handleCooler()
             break;
         case COOLER_OFF:
             if (globalTemperature > 28) {
-                activateCooler();
+                lightLED2(2);
+                Set_Timer(coolerTimerIndex, 500);
                 coolerState = COOLER_ON; // Set to COOLER_ON state
             }
             break;
         case COOLER_ON:
             if (Is_Timer_Expired(coolerTimerIndex) != 1){break;}
-            deactivateCooler();
+            lightLED2(0);
             coolerState = COOLER_OFF; // Set to COOLER_OFF state
             break;
     }
-}
-
-void activateCooler()
-{
-    // Cooler green
-    lightLED2(2);
-
-    // Turn off the cooler
-    Set_Timer(coolerTimerIndex, 500);
-}
-
-void deactivateCooler()
-{
-    // Cooler red
-    lightLED2(0);
 }
