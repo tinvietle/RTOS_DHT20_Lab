@@ -30,7 +30,7 @@ void handleHumidifier()
             }
             else {
                 // Humidity is sufficient; turn off the humidifier LED
-                lightLED3(0); // Turn off the humidifier LED when idle
+                lightLED3(3); // Turn off the humidifier LED when idle
             }
             break;
         case HumidifierState::HUMIDIFIER_GREEN:
