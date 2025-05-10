@@ -15,12 +15,12 @@ void handleHeater() {
     HeaterState newState;
 
     // Determine the new state based on global temperature
-    if (globalTemperature < 25) {
-        newState = HeaterState::SAFE_TEMP;
-    } else if (globalTemperature < 31) {
+    if (globalTemperature < 15) {
+        newState = HeaterState::DANGER_TEMP;
+    } else if (globalTemperature < 20) {
         newState = HeaterState::MID_TEMP;
     } else {
-        newState = HeaterState::DANGER_TEMP;
+        newState = HeaterState::SAFE_TEMP;
     }
 
     // If state has changed, update LEDs and print
