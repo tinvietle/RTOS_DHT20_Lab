@@ -10,7 +10,8 @@ enum class CoolerState {
     COOLER_OFF
 };
 
-#define TEMPERATURE_THRESHOLD 31  // predefined temperature threshold
+#define TEMPERATURE_THRESHOLD 27  // predefined temperature threshold
+#define COOLER_DURATION 500  // predefined cooler duration 
 
 int coolerTimerIndex = COOLER_INDEX; // Index for the software timer
 CoolerState coolerState = CoolerState::COOLER_INIT; // Initial state
@@ -27,8 +28,8 @@ void handleCooler()
                 Serial.println("Cooler ON");
                 // Cooler green
                 lightLED2(2);
-                // Turn off the cooler
-                Set_Timer(coolerTimerIndex, 500);
+                // Turn on the cooler
+                Set_Timer(coolerTimerIndex, COOLER_DURATION);
                 coolerState = CoolerState::COOLER_ON; // Set to COOLER_ON state
             }
             break;
@@ -46,8 +47,8 @@ void handleCooler()
                 Serial.println("Cooler ON");
                 // Cooler green
                 lightLED2(2);
-                // Turn off the cooler
-                Set_Timer(coolerTimerIndex, 500);
+                // Turn on the cooler
+                Set_Timer(coolerTimerIndex, COOLER_DURATION);
             }
             break;
     }
