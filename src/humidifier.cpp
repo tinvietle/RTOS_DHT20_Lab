@@ -12,7 +12,7 @@
 #define HUMIDIFIER_YELLOW  2
 #define HUMIDIFIER_RED     3
 
-int humidifierTimerIndex = 0; // Index for the software timer
+int humidifierTimerIndex = 11; // Index for the software timer
 int humidifierState = HUMIDIFIER_IDLE;
 
 void handleHumidifier()
