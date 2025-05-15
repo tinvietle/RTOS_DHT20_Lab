@@ -211,32 +211,6 @@ void loop() {
   }
 }
 
-// void indicatorPublish() {
-
-//   // Reading temperature or humidity takes about 250 milliseconds!
-//   // Sensor readings may also be up to 2 seconds 'old' (it's a very slow sensor)
-//   float humValue = dht.readHumidity();
-//   float tempValue = dht.readTemperature();
-
-//   if (isnan(humValue) || isnan(tempValue)) {
-//     Serial.println("Failed to read from DHT sensor!");
-//     return;
-//   }
-
-//   if (!temperature.publish(tempValue)) {
-//     Serial.println(F("Failed"));
-//   } else {
-//     Serial.print("Temperature: ");
-//     Serial.println(tempValue);
-//   }
-//   if (!humidity.publish(humValue)) {
-//     Serial.println(F("Failed"));
-//   } else {
-//     Serial.print("Humidity: ");
-//     Serial.println(humValue);
-//   }
-// }
-
 // Function to connect and reconnect as necessary to the MQTT server.
 // Should be called in the loop function and it will take care if connecting.
 void MQTT_connect() {
